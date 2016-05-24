@@ -1,0 +1,20 @@
+/**
+ * Script is originally taken from https://coderwall.com/p/kuralw/set-up-a-script-to-clean-up-old-gmail-threads
+ * Moves any threads with a given label "garbage" older than 1 week to the trash
+ */
+function flushLabel(labelName) {
+  var threads = GmailApp.search("older_than:7d label:" + labelName);
+
+  for (var i = 0, thread; thread = threads[i++];) {
+    thread.moveToTrash();
+    Logger.log("Trashing " + thread.getFirstMessageSubject());
+  }
+};
+
+/**
+ * Arguments cannot currently be passed to functions running on a schedule.
+ * Each label that should be flushed automatically has its own function.
+ */
+function flushGarbage() {
+  flushLabel("garbage");
+};
